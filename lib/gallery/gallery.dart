@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class MobileHomePage extends StatelessWidget {
+class Gallery extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container();
