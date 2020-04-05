@@ -1,13 +1,12 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 
-class HomePage extends StatefulWidget {
+class Home extends StatefulWidget {
   @override
-  _HomePageState createState() => _HomePageState();
+  _HomeState createState() => _HomeState();
 }
 
-class _HomePageState extends State<HomePage>
-    with SingleTickerProviderStateMixin {
+class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   int index = 0;
   List<Map<String, String>> slidelist = [
     {
