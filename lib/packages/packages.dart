@@ -14,7 +14,7 @@ class Packages extends StatelessWidget {
         'Fishing from boat or edge of river',
         'Swiming in river',
       ],
-      'note': 'Best for weekend trip'
+      'note': 'Best for weekend trip and picnic'
     },
     {
       'packagetype': 'Vacation',

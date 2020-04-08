@@ -9,7 +9,6 @@ class Place extends StatelessWidget {
     List<String> attractions = place['attractions'];
     return Flexible(
       child: Container(
-        height: 400,
         margin: EdgeInsets.symmetric(vertical: 10),
         decoration: BoxDecoration(
           image: DecorationImage(

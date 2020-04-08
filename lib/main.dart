@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:villstay/Footer/footer.dart';
 import 'package:villstay/about_us/about_us.dart';
 import 'package:villstay/gallery/gallery.dart';
@@ -8,8 +7,14 @@ import 'package:villstay/packages/packages.dart';
 import 'package:villstay/places/places.dart';
 import 'package:villstay/route_generator.dart';
 import 'package:villstay/why_us/why_us.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
-void main() {
+import 'package:villstay/package_calculator_injection_container.dart'
+    as packagecalculatordi;
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await packagecalculatordi.packageCalculatorInit();
   runApp(MyApp());
 }
 
@@ -32,6 +37,7 @@ class LandingPage extends StatelessWidget {
   final ItemScrollController itemScrollController = ItemScrollController();
   final ItemPositionsListener itemPositionListener =
       ItemPositionsListener.create();
+  final GlobalKey<ScaffoldState> drawerKey = GlobalKey();
 
   final List<String> navItems = ['Places', 'Packages', 'Gallery', 'Why Us'];
   final List<Widget> widgetList = [
@@ -105,10 +111,17 @@ class LandingPage extends StatelessWidget {
         ]),
       ),
       child: Scaffold(
+        // key for opening drawer on button click
+        key: drawerKey,
         appBar: AppBar(
           backgroundColor: Colors.white,
           elevation: 0.0,
-          leading: _screenWidth < 800 ? Icon(Icons.menu) : null,
+          // when screen width less than 800 show menu button
+          leading: _screenWidth < 800
+              ? IconButton(
+                  onPressed: () => drawerKey.currentState.openDrawer(),
+                  icon: Icon(Icons.menu, color: Colors.green))
+              : null,
           title: MaterialButton(
             onPressed: () {
               itemScrollController.scrollTo(
