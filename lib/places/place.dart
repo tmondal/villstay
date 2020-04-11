@@ -6,6 +6,7 @@ class Place extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
     List<String> attractions = place['attractions'];
     return Flexible(
       child: Container(
@@ -17,7 +18,9 @@ class Place extends StatelessWidget {
           ),
         ),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 100, vertical: 20),
+          padding: screenWidth > 800
+              ? const EdgeInsets.symmetric(horizontal: 100, vertical: 20)
+              : const EdgeInsets.all(10),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[

@@ -16,13 +16,13 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     },
     {
       'image': 'assets/images/bengal_tiger.png',
-      'title': 'Adventure Journey',
+      'title': 'Adventure activity',
       'subtitle': 'Jungle hoping and Fishing'
     },
     {
       'image': 'assets/images/sundarban_pic.png',
       'title': 'Stay In Village',
-      'subtitle': 'Enjoy village life a little'
+      'subtitle': 'Experience village life a little'
     },
   ];
 

@@ -155,17 +155,20 @@ class _DesktopPackageCalculatorState extends State<DesktopPackageCalculator> {
               Container(
                 width: 150,
                 child: TextFormField(
+                  autovalidate: true,
                   controller: _adultNoController,
                   keyboardType: TextInputType.number,
                   cursorColor: Colors.green,
                   cursorWidth: 1.0,
                   textAlign: TextAlign.center,
+
                   // formatter needed for flutter web where number keyboard is not possible
                   inputFormatters: <TextInputFormatter>[
                     WhitelistingTextInputFormatter.digitsOnly,
                     LengthLimitingTextInputFormatter(2),
                   ],
                   decoration: InputDecoration(
+                    contentPadding: EdgeInsets.all(1.0),
                     border: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.green, width: 1.0),
                     ),
@@ -223,6 +226,7 @@ class _DesktopPackageCalculatorState extends State<DesktopPackageCalculator> {
               Container(
                 width: 150,
                 child: TextFormField(
+                  autovalidate: true,
                   controller: _childNoController,
                   keyboardType: TextInputType.number,
                   cursorColor: Colors.green,
@@ -292,6 +296,7 @@ class _DesktopPackageCalculatorState extends State<DesktopPackageCalculator> {
               Container(
                 width: 150,
                 child: TextFormField(
+                  autovalidate: true,
                   controller: _daysNoController,
                   keyboardType: TextInputType.number,
                   cursorColor: Colors.green,
@@ -492,61 +497,75 @@ class _DesktopPackageCalculatorState extends State<DesktopPackageCalculator> {
               : Container(),
 
           SizedBox(height: 50),
-          Row(children: <Widget>[Text("Your Package", style: subHeadingStyle)]),
+          Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[Text("Your Package", style: subHeadingStyle)]),
           // your package card
           Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Card(
-                child: Container(
-                  child: Column(
-                    children: <Widget>[
-                      // placename
-                      Row(children: <Widget>[
-                        Text("Place Name: "),
-                        Text(state.packageForm.placeName)
-                      ]),
-                      // boat type
-                      Row(children: <Widget>[
-                        Text("Boat Type: "),
-                        Text(state.packageForm.boatType)
-                      ]),
-                      // vehicle type
-                      state.packageForm.isVehicle
-                          ? Row(children: <Widget>[
-                              Text("Vehicle Type: "),
-                              Text(state.packageForm.vehicleType)
-                            ])
-                          : Container(),
-                      // hotel type
-                      !state.packageForm.isHotel
-                          ? Row(children: <Widget>[
-                              Text("Hotel Type: "),
-                              Text(state.packageForm.hotelType)
-                            ])
-                          : Container(),
-                      SizedBox(height: 20),
-                      Row(children: <Widget>[
-                        Text("Price : "),
-                        Text(computePrice(state, 0, 0, 1))
-                      ])
-                    ],
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    child: Column(
+                      children: <Widget>[
+                        // placename
+                        Row(children: <Widget>[
+                          Text("Place Name: "),
+                          Text(state.packageForm.placeName)
+                        ]),
+                        // boat type
+                        Row(children: <Widget>[
+                          Text("Boat Type: "),
+                          Text(state.packageForm.boatType)
+                        ]),
+                        // vehicle type
+                        state.packageForm.isVehicle
+                            ? Row(children: <Widget>[
+                                Text("Vehicle Type: "),
+                                Text(state.packageForm.vehicleType)
+                              ])
+                            : Container(),
+                        // hotel type
+                        !state.packageForm.isHotel
+                            ? Row(children: <Widget>[
+                                Text("Hotel Type: "),
+                                Text(state.packageForm.hotelType)
+                              ])
+                            : Container(),
+                        SizedBox(height: 20),
+                        Row(children: <Widget>[
+                          Text("Price : "),
+                          Text(computePrice(state, 0, 0, 1))
+                        ])
+                      ],
+                    ),
                   ),
                 ),
               ),
             ],
           ),
+          SizedBox(height: 50),
+          Row(children: <Widget>[
+            Text("You might like", style: headingStyle),
+          ]),
+          SizedBox(height: 10),
           // package on people count for 1 day
           Row(children: <Widget>[
             Text("Packages depending on People count for 1 day")
           ]),
           Row(children: <Widget>[
             Card(
-              child: Container(
-                child: Column(
-                  children: <Widget>[
-                    Text("For 1 adult person "),
-                    Text("Price : " + computePrice(state, 1, 0, 1)),
-                  ],
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  child: Column(
+                    children: <Widget>[
+                      Text("For 1 adult person "),
+                      Text("Price : " + computePrice(state, 1, 0, 1)),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -557,12 +576,15 @@ class _DesktopPackageCalculatorState extends State<DesktopPackageCalculator> {
           ]),
           Row(children: <Widget>[
             Card(
-              child: Container(
-                child: Column(
-                  children: <Widget>[
-                    Text("For 1 adult person 2 days"),
-                    Text("Price : " + computePrice(state, 1, 0, 2)),
-                  ],
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  child: Column(
+                    children: <Widget>[
+                      Text("For 1 adult person 2 days"),
+                      Text("Price : " + computePrice(state, 1, 0, 2)),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -573,12 +595,15 @@ class _DesktopPackageCalculatorState extends State<DesktopPackageCalculator> {
           ]),
           Row(children: <Widget>[
             Card(
-              child: Container(
-                child: Column(
-                  children: <Widget>[
-                    Text("For 1 adult person 3 days"),
-                    Text("Price : " + computePrice(state, 1, 0, 3)),
-                  ],
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  child: Column(
+                    children: <Widget>[
+                      Text("For 1 adult person 3 days"),
+                      Text("Price : " + computePrice(state, 1, 0, 3)),
+                    ],
+                  ),
                 ),
               ),
             ),

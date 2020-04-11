@@ -20,6 +20,18 @@ class _MobilePackageCalculatorState extends State<MobilePackageCalculator> {
   final TextEditingController _childNoController = TextEditingController();
   final TextEditingController _daysNoController = TextEditingController();
 
+  final TextStyle headingStyle = TextStyle(
+    color: Colors.green[900],
+    fontWeight: FontWeight.w500,
+    fontSize: 20.0,
+  );
+
+  final TextStyle subHeadingStyle = TextStyle(
+    color: Colors.green,
+    fontWeight: FontWeight.w400,
+    fontSize: 15.0,
+  );
+
   @override
   void dispose() {
     _adultNoController.dispose();
@@ -87,10 +99,10 @@ class _MobilePackageCalculatorState extends State<MobilePackageCalculator> {
     // transportPrice per vehicle up and down
     transportPrice =
         ((adultCount + childCount) / 8).ceil() * transportPrice * 2;
-    print("transport: " + transportPrice.toString());
+    // print("transport: " + transportPrice.toString());
     // hotel price
     hotelPrice = ((adultCount + childCount) / 2).ceil() * hotelPrice;
-    print("hotel: " + hotelPrice.toString());
+    // print("hotel: " + hotelPrice.toString());
     // boat price
     int boatRentPrice = 0;
     if (boatPrice == 500)
@@ -102,7 +114,7 @@ class _MobilePackageCalculatorState extends State<MobilePackageCalculator> {
     boatPrice = min(
         (adultCount * boatPrice + (childCount * boatPrice / 2).floor()),
         boatRentPrice);
-    print("boat: " + boatPrice.toString());
+    // print("boat: " + boatPrice.toString());
     // sum
     int sum = transportPrice +
         hotelPrice +
@@ -118,86 +130,107 @@ class _MobilePackageCalculatorState extends State<MobilePackageCalculator> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
+          SizedBox(height: 100),
           // calculator
           Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[Flexible(child: Text("Package calculator"))]),
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Flexible(child: Text("Package calculator", style: headingStyle))
+            ],
+          ),
+          SizedBox(height: 10),
           // get no of adult
           Row(
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Text("No. of Adult person"),
-              SizedBox(width: 10),
-              Container(
-                width: 150,
-                child: TextFormField(
-                  controller: _adultNoController,
-                  textAlign: TextAlign.center,
-                  keyboardType: TextInputType.number,
-                  cursorColor: Colors.green,
-                  cursorWidth: 1.0,
-                  // formatter needed for flutter web where number keyboard is not possible
-                  inputFormatters: <TextInputFormatter>[
-                    WhitelistingTextInputFormatter.digitsOnly,
-                    LengthLimitingTextInputFormatter(2),
-                  ],
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.green, width: 1.0),
+              Flexible(
+                  child: Text("No. of Adult person", style: subHeadingStyle)),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Flexible(
+                child: Container(
+                  width: 150,
+                  child: TextFormField(
+                    autovalidate: true,
+                    controller: _adultNoController,
+                    textAlign: TextAlign.center,
+                    keyboardType: TextInputType.number,
+                    cursorColor: Colors.green,
+                    cursorWidth: 1.0,
+                    // formatter needed for flutter web where number keyboard is not possible
+                    inputFormatters: <TextInputFormatter>[
+                      WhitelistingTextInputFormatter.digitsOnly,
+                      LengthLimitingTextInputFormatter(2),
+                    ],
+                    decoration: InputDecoration(
+                      contentPadding: EdgeInsets.all(1.0),
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.green, width: 1.0),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.green, width: 1.0),
+                      ),
+                      prefixIcon: IconButton(
+                        splashColor: Colors.green,
+                        icon: Icon(Icons.remove_circle_outline,
+                            color: Colors.green),
+                        onPressed: () {
+                          if (_adultNoController.text.isNotEmpty &&
+                              int.parse(_adultNoController.text) > 1) {
+                            _adultNoController.text =
+                                (int.parse(_adultNoController.text) - 1)
+                                    .toString();
+                          } else if (_adultNoController.text.isEmpty) {
+                            _adultNoController.text = "0";
+                          }
+                        },
+                      ),
+                      suffixIcon: IconButton(
+                        splashColor: Colors.green,
+                        icon:
+                            Icon(Icons.add_circle_outline, color: Colors.green),
+                        onPressed: () {
+                          if (_adultNoController.text.isNotEmpty &&
+                              int.parse(_adultNoController.text) < 30) {
+                            _adultNoController.text =
+                                (int.parse(_adultNoController.text) + 1)
+                                    .toString();
+                          } else if (_adultNoController.text.isEmpty) {
+                            _adultNoController.text = "0";
+                          }
+                        },
+                      ),
                     ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.green, width: 1.0),
-                    ),
-                    prefixIcon: IconButton(
-                      splashColor: Colors.green,
-                      icon: Icon(Icons.remove_circle_outline,
-                          color: Colors.green),
-                      onPressed: () {
-                        if (_adultNoController.text.isNotEmpty &&
-                            int.parse(_adultNoController.text) > 1) {
-                          _adultNoController.text =
-                              (int.parse(_adultNoController.text) - 1)
-                                  .toString();
-                        } else if (_adultNoController.text.isEmpty) {
-                          _adultNoController.text = "0";
-                        }
-                      },
-                    ),
-                    suffixIcon: IconButton(
-                      splashColor: Colors.green,
-                      icon: Icon(Icons.add_circle_outline, color: Colors.green),
-                      onPressed: () {
-                        if (_adultNoController.text.isNotEmpty &&
-                            int.parse(_adultNoController.text) < 30) {
-                          _adultNoController.text =
-                              (int.parse(_adultNoController.text) + 1)
-                                  .toString();
-                        } else if (_adultNoController.text.isEmpty) {
-                          _adultNoController.text = "0";
-                        }
-                      },
-                    ),
-                  ),
 
-                  validator: (value) {
-                    if (int.parse(_adultNoController.text) > 30)
-                      return 'Maximum 30 people we provide service';
-                    else
-                      return null;
-                  },
+                    validator: (value) {
+                      if (int.parse(_adultNoController.text) > 30)
+                        return 'Maximum 30 people we provide service';
+                      else
+                        return null;
+                    },
+                  ),
                 ),
               ),
             ],
           ),
+          SizedBox(height: 10),
           // get no of child
           Row(
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Text("No. of Child"),
-              SizedBox(width: 65),
+              Text("No. of Child", style: subHeadingStyle),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
               Container(
                 width: 150,
                 child: TextFormField(
+                  autovalidate: true,
                   controller: _childNoController,
                   keyboardType: TextInputType.number,
                   cursorColor: Colors.green,
@@ -257,15 +290,21 @@ class _MobilePackageCalculatorState extends State<MobilePackageCalculator> {
               )
             ],
           ),
+          SizedBox(height: 10),
           // get no of days
           Row(
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Text("No. of days"),
-              SizedBox(width: 69),
+              Text("No. of days", style: subHeadingStyle),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
               Container(
                 width: 150,
                 child: TextFormField(
+                  autovalidate: true,
                   controller: _daysNoController,
                   keyboardType: TextInputType.number,
                   cursorColor: Colors.green,
@@ -322,19 +361,15 @@ class _MobilePackageCalculatorState extends State<MobilePackageCalculator> {
                       return null;
                   },
                 ),
-              )
+              ),
             ],
           ),
           // select place
           Row(children: <Widget>[
-            Flexible(child: Text("Please choose a place"))
-          ]),
-          // place help text
-          Row(children: <Widget>[
             Flexible(
-                child:
-                    Text("Please click details to know more about the place"))
+                child: Text("Please choose a place", style: subHeadingStyle))
           ]),
+
           Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
@@ -350,7 +385,8 @@ class _MobilePackageCalculatorState extends State<MobilePackageCalculator> {
               Expanded(
                 child: Card(
                   child: CheckboxListTile(
-                    title: Text('Transport needed from Canning Rail Station'),
+                    title: Text('Transport needed from Canning Rail Station',
+                        style: subHeadingStyle),
                     value: state.packageForm.isVehicle,
                     onChanged: (bool value) {
                       BlocProvider.of<PacakageCalculatorBloc>(context).add(
@@ -380,7 +416,11 @@ class _MobilePackageCalculatorState extends State<MobilePackageCalculator> {
 
           // select vehicle type
           state.packageForm.isVehicle
-              ? Row(children: <Widget>[Text("Please choose a Vehicle type")])
+              ? Row(children: <Widget>[
+                  Flexible(
+                      child: Text("Please choose a Vehicle type",
+                          style: subHeadingStyle))
+                ])
               : Container(),
           state.packageForm.isVehicle
               ? Column(
@@ -395,7 +435,11 @@ class _MobilePackageCalculatorState extends State<MobilePackageCalculator> {
               : Container(),
 
           // select boat type
-          Row(children: <Widget>[Text("Please choose a Boat type")]),
+          Row(children: <Widget>[
+            Flexible(
+                child:
+                    Text("Please choose a Boat type", style: subHeadingStyle))
+          ]),
           Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
@@ -412,7 +456,8 @@ class _MobilePackageCalculatorState extends State<MobilePackageCalculator> {
               Expanded(
                 child: Card(
                   child: CheckboxListTile(
-                    title: Text('Want to spend night on Boat'),
+                    title: Text('Want to spend night on Boat',
+                        style: subHeadingStyle),
                     value: state.packageForm.isHotel,
                     onChanged: (bool value) {
                       BlocProvider.of<PacakageCalculatorBloc>(context).add(
@@ -451,7 +496,9 @@ class _MobilePackageCalculatorState extends State<MobilePackageCalculator> {
           // select hotel type
           !state.packageForm.isHotel
               ? Row(children: <Widget>[
-                  Flexible(child: Text("Please choose a Hotel type"))
+                  Flexible(
+                      child: Text("Please choose a Hotel type",
+                          style: subHeadingStyle))
                 ])
               : Container(),
           !state.packageForm.isHotel
@@ -467,97 +514,119 @@ class _MobilePackageCalculatorState extends State<MobilePackageCalculator> {
               : Container(),
 
           SizedBox(height: 50),
-          Row(children: <Widget>[Text("Your Package")]),
+          Row(children: <Widget>[Text("Your Package", style: subHeadingStyle)]),
           // your package card
           Row(
             children: <Widget>[
               Card(
-                child: Container(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      // placename
-                      Row(children: <Widget>[
-                        Text("Place Name: "),
-                        Text(state.packageForm.placeName)
-                      ]),
-                      // boat type
-                      Row(children: <Widget>[
-                        Text("Boat Type: "),
-                        Text(state.packageForm.boatType)
-                      ]),
-                      // vehicle type
-                      state.packageForm.isVehicle
-                          ? Row(children: <Widget>[
-                              Text("Vehicle Type: "),
-                              Text(state.packageForm.vehicleType)
-                            ])
-                          : Container(),
-                      // hotel type
-                      !state.packageForm.isHotel
-                          ? Row(children: <Widget>[
-                              Text("Hotel Type: "),
-                              Text(state.packageForm.hotelType)
-                            ])
-                          : Container(),
-                      SizedBox(height: 20),
-                      Row(children: <Widget>[
-                        Text("Price : "),
-                        Text(computePrice(state, 0, 0, 1))
-                      ])
-                    ],
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        // placename
+                        Row(children: <Widget>[
+                          Text("Place Name: "),
+                          Text(state.packageForm.placeName)
+                        ]),
+                        // boat type
+                        Row(children: <Widget>[
+                          Text("Boat Type: "),
+                          Text(state.packageForm.boatType)
+                        ]),
+                        // vehicle type
+                        state.packageForm.isVehicle
+                            ? Row(children: <Widget>[
+                                Text("Vehicle Type: "),
+                                Text(state.packageForm.vehicleType)
+                              ])
+                            : Container(),
+                        // hotel type
+                        !state.packageForm.isHotel
+                            ? Row(children: <Widget>[
+                                Text("Hotel Type: "),
+                                Text(state.packageForm.hotelType)
+                              ])
+                            : Container(),
+                        SizedBox(height: 20),
+                        Row(children: <Widget>[
+                          Text("Price : "),
+                          Text(computePrice(state, 0, 0, 1))
+                        ])
+                      ],
+                    ),
                   ),
                 ),
               ),
             ],
           ),
+          SizedBox(height: 20),
+          Row(children: <Widget>[
+            Flexible(child: Text("You might like", style: headingStyle)),
+          ]),
+          SizedBox(height: 10),
           // package on people count for 1 day
           Row(children: <Widget>[
-            Text("Packages depending on People count for 1 day")
+            Flexible(
+                child: Text("Packages depending on People count for 1 day"))
           ]),
           Row(children: <Widget>[
             Card(
-              child: Container(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    Text("For 1 adult person "),
-                    Text("Price : " + computePrice(state, 1, 0, 1)),
-                  ],
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Text("For 1 adult person "),
+                      Text("Price : " + computePrice(state, 1, 0, 1)),
+                    ],
+                  ),
                 ),
               ),
             ),
           ]),
           // package on people count for 2 days
           Row(children: <Widget>[
-            Text("Packages depending on People count for 2 days 1 night")
+            Flexible(
+                child: Text(
+                    "Packages depending on People count for 2 days 1 night"))
           ]),
           Row(children: <Widget>[
             Card(
-              child: Container(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    Text("For 1 adult person 2 days"),
-                    Text("Price : " + computePrice(state, 1, 0, 2)),
-                  ],
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Text("For 1 adult person 2 days"),
+                      Text("Price : " + computePrice(state, 1, 0, 2)),
+                    ],
+                  ),
                 ),
               ),
             ),
           ]),
           // package on people count for 3 days
           Row(children: <Widget>[
-            Text("Packages depending on People count for 3 days 2 nights")
+            Flexible(
+                child: Text(
+                    "Packages depending on People count for 3 days 2 nights"))
           ]),
           Row(children: <Widget>[
             Card(
-              child: Container(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    Text("For 1 adult person 3 days"),
-                    Text("Price : " + computePrice(state, 1, 0, 3)),
-                  ],
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Text("For 1 adult person 3 days"),
+                      Text("Price : " + computePrice(state, 1, 0, 3)),
+                    ],
+                  ),
                 ),
               ),
             ),
